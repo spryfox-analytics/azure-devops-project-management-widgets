@@ -3,7 +3,7 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Dashboard from "azure-devops-extension-api/Dashboard";
 import { TextField } from "azure-devops-ui/TextField";
-import { getPipelineDefinition } from "../widget-catalog/utility";
+import { getTeamMembersCapacities } from "../widget-catalog/utility";
 import { Icon } from "azure-devops-ui/Icon";
 import { Checkbox } from "azure-devops-ui/Checkbox";
 import { showRootComponent } from "../../Common";
@@ -105,7 +105,7 @@ class SampleWidgetConfig
   private async validateSettings(): Promise<boolean> {
     let pipelineIdIsValid = false;
     try {
-      const pipelineDef = await getPipelineDefinition(this.settings.pipelineId);
+      const pipelineDef = await getTeamMembersCapacities();
       pipelineIdIsValid = !!this.settings.pipelineId && !!pipelineDef;
     } catch {}
 

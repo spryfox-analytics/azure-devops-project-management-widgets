@@ -3,7 +3,7 @@ import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Dashboard from "azure-devops-extension-api/Dashboard";
 import { BuildResult } from "azure-devops-extension-api/Build";
-import { getLastestBuild } from "./utility";
+import { getTeamMembersCapacities } from "./utility";
 import { css } from "azure-devops-ui/Util";
 import { showRootComponent } from "../../Common";
 
@@ -67,15 +67,15 @@ class SampleWidget extends React.Component<{}, ISampleWidgetState> implements Da
       const deserialized: ISampleWidgetSettings | null = JSON.parse(widgetSettings.customSettings.data);
 
       if (deserialized) {
-        const latestResult = (await getLastestBuild(deserialized.pipelineId))?.result;
+        const latestResult = (await getTeamMembersCapacities())?.result;
 
         if (latestResult) {
+          let capacitiesString = 'Team Members Capacities:\n';
+          for (const [memberName, totalCapacity] of Object.entries(latestResult)) {
+            capacitiesString += `${memberName}: ${totalCapacity.toFixed(2)}\n`;
+          }
           this.setState({
-            pipelineStatus:
-              latestResult == BuildResult.Succeeded ||
-                latestResult == BuildResult.PartiallySucceeded
-                ? "👍"
-                : "👎",
+            pipelineStatus: capacitiesString,
             blink: deserialized.blink,
           });
           return;
