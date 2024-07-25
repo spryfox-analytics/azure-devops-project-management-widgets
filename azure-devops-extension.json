@@ -1,0 +1,52 @@
+{
+    "manifestVersion": 1,
+    "id": "project-management-widgets",
+    "publisher": "SpryfoxGmbH",
+    "version": "0.0.2",
+    "name": "Project Management Widgets",
+    "description": "This extension contains project management widgets for Azure DevOps.",
+    "categories": ["Azure Boards"],
+    "demands": ["api-version/3.0"],
+    "tags": [
+        "project management",
+        "dashboards",
+        "charts",
+        "table"
+    ],
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/spryfox-analytics/azure-devops-project-management-widgets"
+    },
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "icons": {
+        "default": "logo.png"
+    },
+    "content": {
+        "details": {
+            "path": "overview.md"
+        }
+    },
+    "scopes": [
+        "vso.project",
+        "vso.work_full",
+        "vso.identity"
+    ],
+    "galleryFlags": [
+        "Preview",
+        "Public"
+    ],
+    "files": [
+        {
+            "path": "static",
+            "addressable": true
+        },
+        {
+            "path": "dist",
+            "addressable": true
+        }
+    ]
+}
