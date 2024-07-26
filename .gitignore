@@ -11,3 +11,4 @@ coverage
 *.lcov
 
 .idea
+pat.txt

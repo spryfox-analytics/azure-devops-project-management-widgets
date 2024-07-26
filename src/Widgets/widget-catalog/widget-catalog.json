@@ -11,9 +11,9 @@
                 "name": "Sample widget",
                 "description": "Shows current pipeline status",
                 "catalogIconUrl": "logo.png",
-                "uri": "dist/widget-catalog/widget-catalog.html",
+                "uri": "widget-catalog/widget-catalog.html",
                 "isNameConfigurable": true,
-                "supportedSizes": [{ "rowSpan": 1, "columnSpan": 1 }],
+                "supportedSizes": [{ "rowSpan": 1, "columnSpan": 4 }],
                 "supportedScopes": ["project_team"]
             }
         }

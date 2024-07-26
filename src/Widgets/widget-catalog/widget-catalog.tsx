@@ -2,8 +2,7 @@ import "./widget-catalog.scss";
 import * as React from "react";
 import * as SDK from "azure-devops-extension-sdk";
 import * as Dashboard from "azure-devops-extension-api/Dashboard";
-import { BuildResult } from "azure-devops-extension-api/Build";
-import { getTeamMembersCapacities } from "./utility";
+import { getTeamMembersCapacities } from "./Main";
 import { css } from "azure-devops-ui/Util";
 import { showRootComponent } from "../../Common";
 
@@ -14,7 +13,15 @@ interface ISampleWidgetState {
 }
 
 class SampleWidget extends React.Component<{}, ISampleWidgetState> implements Dashboard.IConfigurableWidget {
-  
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      title: "",
+      pipelineStatus: "Loading...",
+      blink: false
+    };
+  }
+
   componentDidMount() {
     SDK.init().then(() => {
       SDK.register("sample-widget", this);
@@ -26,9 +33,7 @@ class SampleWidget extends React.Component<{}, ISampleWidgetState> implements Da
       this.state && (
         <div className="content">
           <h2 className="title">{this.state.title}</h2>
-          <div
-            className={css("status", this.state.blink ? "blink" : undefined)}
-          >
+          <div className={css("status", this.state.blink ? "blink" : undefined)}>
             {this.state.pipelineStatus}
           </div>
         </div>
@@ -59,15 +64,16 @@ class SampleWidget extends React.Component<{}, ISampleWidgetState> implements Da
   }
 
   private async setStateFromWidgetSettings(widgetSettings: Dashboard.WidgetSettings) {
-    this.setState({
-      title: widgetSettings.name,
-    });
+    console.log("BEGIN setStateFromWidgetSettings");
+    this.setState({ title: widgetSettings.name, pipelineStatus: "Loading..." });
 
     try {
-      const deserialized: ISampleWidgetSettings | null = JSON.parse(widgetSettings.customSettings.data);
+      console.log("TRY getting settings");
+      //const deserialized: ISampleWidgetSettings | null = JSON.parse(widgetSettings.customSettings.data);
 
-      if (deserialized) {
-        const latestResult = (await getTeamMembersCapacities())?.result;
+      //if (deserialized) {
+        console.log("SUCCEEDED deserialized");
+        const latestResult = await getTeamMembersCapacities();
 
         if (latestResult) {
           let capacitiesString = 'Team Members Capacities:\n';
@@ -76,13 +82,17 @@ class SampleWidget extends React.Component<{}, ISampleWidgetState> implements Da
           }
           this.setState({
             pipelineStatus: capacitiesString,
-            blink: deserialized.blink,
+      //      blink: deserialized.blink,
           });
           return;
         }
-      }
-    } catch { }
-    this.setState({ pipelineStatus: "🤷‍♂️", });
+      //}
+      console.log("FAILED deserialized");
+      this.setState({ pipelineStatus: "Nada" });
+    } catch (e) {
+      this.setState({ pipelineStatus: (e as any).toString() });
+    }
+    console.log("END setStateFromWidgetSettings");
   }
 }
 

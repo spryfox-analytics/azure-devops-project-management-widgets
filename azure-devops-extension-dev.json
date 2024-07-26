@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "project-management-widgets",
     "publisher": "SpryfoxGmbH",
-    "version": "0.0.2",
+    "version": "0.0.10",
     "name": "Project Management Widgets [DEV]",
     "description": "This extension contains project management widgets for Azure DevOps.",
     "categories": ["Azure Boards"],
